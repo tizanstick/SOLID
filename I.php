@@ -6,7 +6,7 @@ interface IAve {
 }
 
 interface IAveVoladora {
-    // Funciones o métodoss
+    // Funciones o métodos
     function volar(): void;
 }
 
