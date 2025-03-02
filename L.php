@@ -32,7 +32,7 @@ class Mercedes extends Coche {
 
 //Crear o definir una clase
 class ImprimirAsientos {
-    //Variables o atributos
+    //Variables o atributossss
     var $arrayCoches;
 
     // Funciones o métodos
