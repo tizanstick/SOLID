@@ -3,32 +3,63 @@ pipeline {
     triggers {
         githubPush() // Activa el pipeline cuando haya un push en el repo
     }
+    environment {
+        REGISTRY_URL = "tu-registro-harbor.com"  // Cambia esto por tu registro
+        IMAGE_NAME = "java-app"
+        IMAGE_TAG = "latest"
+        REPO_URL = "${env.GIT_URL}"
+        BRANCH_NAME = "${env.GIT_BRANCH}"
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Build & Test') {
             steps {
-                echo 'Clonando el repositorio....'
-                checkout scm
+                script {
+                    sh './gradlew clean build test'
+                }
             }
         }
-        stage('Build') {
+
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Compilando el código...'
+                script {
+                    withSonarQubeEnv('SonarQube') { 
+                        sh './gradlew sonarqube'
+                    }
+                }
             }
         }
-        stage('Test') {
+
+        stage('Package Jar') {
             steps {
-                echo 'Ejecutando pruebas...'
+                sh './gradlew bootJar'
             }
         }
-        stage('Deploy') {
+
+        stage('Build Docker Image') {
             steps {
-                echo 'Desplegando aplicación...'
+                script {
+                    sh "docker build -t $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh "docker login $REGISTRY_URL -u usuario -p contraseña"
+                    sh "docker push $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG"
+                }
             }
         }
     }
+    
     post {
-        always {
-            echo 'Pipeline finalizado.'
+        success {
+            echo "✅ CI completado exitosamente"
+        }
+        failure {
+            echo "❌ Falló el CI"
         }
     }
 }
