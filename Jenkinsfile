@@ -4,7 +4,7 @@ pipeline {
         githubPush() // Activa el pipeline cuando haya un push en el repo
     }
     environment {
-        REGISTRY_URL = "tu-registro-harbor.com"  // Cambia esto por tu registro
+        REGISTRY_URL = "tu-registro-harbor.com"  // Cambia esto por tu registros
         IMAGE_NAME = "java-app"
         IMAGE_TAG = "latest"
         REPO_URL = "${env.GIT_URL}"
