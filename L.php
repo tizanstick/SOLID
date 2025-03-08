@@ -1,6 +1,6 @@
 <?php
 
-//Crear o definir una clase abstractas
+//Crear o definir una clase abstractass
 abstract class Coche {
     abstract function numAsientos();
 }
