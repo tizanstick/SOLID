@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = "java-app"
         IMAGE_TAG = "latest"
         REPO_URL = "${env.GIT_URL}"
-        BRANCH_NAME = "${env.GIT_BRANCH}"
+        BRANCH_NAME = "${params.BRANCH_NAME}"
     }
 
     stages {
