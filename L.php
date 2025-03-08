@@ -3,7 +3,7 @@
 //Crear o definir una clase abstractas
 abstract class Coche {
     abstract function numAsientos();
-    echo holis
+    echo holisolis
 }
 
 //Crear o definir subclases 
